@@ -1,0 +1,61 @@
+:root {
+  --primary: #2352ac;
+  --primary-tint80: #2352ac80;
+  --primary-tint60: #8bc0fe;
+  --primary-tint40: #2352ac40;
+  --primary-tint20: #2352ac20;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+body {
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  min-width: fit-content;
+  max-width: 100vw;
+  margin: 0;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a:focus,
+select:focus,
+button:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+ul:focus,
+li:focus {
+  outline: none !important;
+}
+
+li {
+  list-style: none;
+  padding-left: 0;
+}
+button {
+  background-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  outline: 0;
+}
+
+/*number arrow remove*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
