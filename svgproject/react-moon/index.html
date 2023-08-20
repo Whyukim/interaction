@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .react-moon {
+        position: absolute;
+        inset: 0;
+        width: 200px;
+        height: 200px;
+        margin: auto;
+      }
+      .eye-ball {
+        animation: ani-eye-ball 1s linear infinite alternate;
+      }
+
+      .cls-1 {
+        fill: none;
+        stroke: #61dafb;
+        stroke-miterlimit: 10;
+        stroke-width: 15px;
+        opacity: 0.3;
+      }
+
+      .eye {
+        transform-origin: 50% 50%;
+        animation: ani-eye 2s infinite alternate;
+      }
+
+      .eye-eff {
+        opacity: 1;
+        animation: ani-eye-dash 0.7s infinite ease-in-out;
+        stroke-dasharray: 713;
+        stroke-dashoffset: -713;
+      }
+      .eye-eff-2 {
+        animation-delay: 0.1s;
+      }
+      .eye-eff-3 {
+        animation-delay: 0.2s;
+      }
+      .ellipse {
+        transform-origin: 50% 50%;
+      }
+      .ellipse-1 {
+        animation: rotate-1 5s infinite ease-in-out;
+      }
+      .ellipse-2 {
+        animation: rotate-2 5s infinite ease-in-out;
+      }
+      .ellipse-3 {
+        animation: rotate-3 5s infinite ease-in-out;
+      }
+
+      @keyframes ani-eye {
+        80% {
+          transform: scaleY(1);
+        }
+        90% {
+          transform: scaleY(0.01);
+        }
+        100% {
+          transform: scaleY(0.01);
+        }
+      }
+
+      @keyframes ani-eye-ball {
+        0% {
+          transform: translateX(-20px);
+        }
+        100% {
+          transform: translateX(20px);
+        }
+      }
+
+      @keyframes ani-eye-dash {
+        0% {
+          stroke-dashoffset: -731;
+        }
+        50% {
+          stroke-dashoffset: 0;
+        }
+        100% {
+          stroke-dashoffset: 731;
+        }
+      }
+
+      @keyframes rotate-1 {
+        100% {
+          transform: rotate3d(0, 1, 0, 360deg);
+        }
+      }
+      @keyframes rotate-2 {
+        100% {
+          transform: rotate3d(2, 1.22, 0, 360deg);
+        }
+      }
+      @keyframes rotate-3 {
+        100% {
+          transform: rotate3d(-2, 1.22, 0, 360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg
+      class="react-moon"
+      id="Layer_1"
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 327 291.84"
+    >
+      <defs>
+        <mask id="eye-mask">
+          <ellipse
+            class="eye"
+            cx="163.5"
+            cy="145.92"
+            rx="28"
+            ry="14"
+            fill="#fff"
+          />
+        </mask>
+      </defs>
+      <g class="ellipse ellipse-1">
+        <ellipse class="cls-1" cx="163.5" cy="145.92" rx="156" ry="60" />
+        <ellipse
+          class="cls-1 eye-eff eye-eff-1"
+          cx="163.5"
+          cy="145.92"
+          rx="156"
+          ry="60"
+        />
+      </g>
+      <g class="ellipse ellipse-2">
+        <ellipse
+          class="cls-1"
+          cx="384"
+          cy="384"
+          rx="156"
+          ry="60"
+          transform="matrix(.5 -.87 .87 .5 -361.05 286.47)"
+        />
+        <ellipse
+          class="cls-1 eye-eff eye-eff-2"
+          cx="384"
+          cy="384"
+          rx="156"
+          ry="60"
+          transform="matrix(.5 -.87 .87 .5 -361.05 286.47)"
+        />
+      </g>
+      <g class="ellipse ellipse-3">
+        <ellipse
+          class="cls-1"
+          cx="384"
+          cy="384"
+          rx="60"
+          ry="156"
+          transform="rotate(-30 -170.504 676.413)"
+        />
+        <ellipse
+          class="cls-1 eye-eff eye-eff-3"
+          cx="384"
+          cy="384"
+          rx="60"
+          ry="156"
+          transform="rotate(-30 -170.504 676.413)"
+        />
+      </g>
+      <circle cx="163.5" cy="145.92" r="31" fill="#61dafb" />
+      <ellipse class="eye" cx="163.5" cy="145.92" rx="28" ry="14" fill="#fff" />
+      <g mask="url(#eye-mask)">
+        <circle class="eye-ball" cx="163.5" cy="145.92" r="13" fill="#333" />
+      </g>
+    </svg>
+  </body>
+
+  <script>
+    (() => {
+      const reactElem = document.querySelector(".react-moon");
+      const targetPos = { x: 0, y: 0 };
+      const easeValue = 0.03;
+      const reactMoonInfo = {
+        x: 0,
+        y: 0,
+      };
+
+      window.addEventListener("mousemove", (e) => {
+        targetPos.x = e.clientX - innerWidth * 0.5;
+        targetPos.y = e.clientY - innerHeight * 0.5;
+      });
+
+      let dx;
+      let dy;
+      function render() {
+        dx = targetPos.x - reactMoonInfo.x;
+        dy = targetPos.y - reactMoonInfo.y;
+        reactMoonInfo.x += dx * easeValue;
+        reactMoonInfo.y += dy * easeValue;
+        reactElem.style.transform = `translate3d(${reactMoonInfo.x}px, ${reactMoonInfo.y}px, 0px)`;
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+  </script>
+</html>
