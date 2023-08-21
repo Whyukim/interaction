@@ -18,4 +18,5 @@ export default App;
 
 const Section = styled.section`
   height: 100vh;
+  background-color: red;
 `;

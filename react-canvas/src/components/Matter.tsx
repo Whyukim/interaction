@@ -3,11 +3,14 @@ import {
   Bodies,
   Composite,
   Engine,
+  IChamferableBodyDefinition,
   Mouse,
   MouseConstraint,
   Render,
   Runner,
 } from "matter-js";
+
+import image1 from "../assets/images/image1.jpg";
 
 interface MatterProps {}
 
@@ -21,13 +24,16 @@ function Matter({}: MatterProps) {
     const cw = window.innerWidth;
     const ch = window.innerHeight;
 
-    let engine: Engine, render, runner, mouse: Mouse, mouseConstraint;
+    let engine: Engine, render: Render, runner, mouse: Mouse, mouseConstraint;
 
     initScene();
     initMouse();
     initGound();
+    initImageBoxes();
 
-    canvas.addEventListener("mousewheel", createBox);
+    canvas.addEventListener("mousewheel", () => {
+      addRect(mouse.position.x, mouse.position.y, 50, 50);
+    });
 
     function initScene() {
       engine = Engine.create();
@@ -56,12 +62,42 @@ function Matter({}: MatterProps) {
     }
 
     function initGound() {
-      const ground = Bodies.rectangle(cw / 2, ch, cw, 50, { isStatic: true });
-      Composite.add(engine.world, ground);
+      const segments = 16;
+      const deg = (Math.PI * 2) / segments;
+      const radius = cw / 3;
+      const height = Math.tan(deg / 2) * radius * 2;
+
+      for (let i = 0; i < segments; i++) {
+        const theta = deg * i;
+        const x = Math.cos(theta) * radius + cw / 2;
+        const y = Math.sin(theta) * radius + ch / 2;
+
+        addRect(x, y, 50, height, {
+          isStatic: true,
+          angle: theta,
+          render: {
+            lineWidth: 15,
+            fillStyle: "red",
+            strokeStyle: "blue",
+          },
+        });
+      }
     }
 
-    function createBox() {
-      const box = Bodies.rectangle(mouse.position.x, mouse.position.y, 50, 50);
+    function initImageBoxes() {
+      addRect(cw / 2, ch / 2, 300, 400, {
+        render: { sprite: { texture: image1, yScale: 0.7, xScale: 0.7 } },
+      });
+    }
+
+    function addRect(
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      options: IChamferableBodyDefinition = {}
+    ) {
+      const box = Bodies.rectangle(x, y, w, h, options);
       Composite.add(engine.world, box);
     }
   }, []);
